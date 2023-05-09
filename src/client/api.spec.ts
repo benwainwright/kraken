@@ -1,5 +1,6 @@
-import { Api } from './api'
 import nock from 'nock'
+
+import { Api } from './api'
 
 describe('the API clas', () => {
   it('retries the request if a 500 is returned', async () => {

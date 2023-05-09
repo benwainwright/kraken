@@ -1,5 +1,6 @@
-import { getSiteOutages } from './get-site-outages'
 import { when } from 'jest-when'
+
+import { getSiteOutages } from './get-site-outages'
 
 describe('getSiteOutages', () => {
   it('Given the set of data for the kingfisher site, it returns the correct set out outages to be sent to the POST endpoint', async () => {

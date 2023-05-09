@@ -1,8 +1,9 @@
-import { Outage } from '../types/outage'
+import { backOff } from 'exponential-backoff'
 import fetch from 'node-fetch-commonjs'
+
+import { Outage } from '../types/outage'
 import { HTTP_HEADERS } from '../constants/http-headers'
 import { SiteInfo } from '../types/site-info'
-import { backOff } from 'exponential-backoff'
 
 const API_BASE_PATH = 'https://api.krakenflex.systems/interview-tests-mock-api/v1'
 
