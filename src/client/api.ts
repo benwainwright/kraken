@@ -1,7 +1,8 @@
 import { Outage } from "../types/outage";
-import fetch, { BodyInit } from "node-fetch-commonjs";
+import fetch from "node-fetch-commonjs";
 import { HTTP_HEADERS } from "../constants/http-headers";
 import { SiteInfo } from "../types/site-info";
+import { backOff } from "exponential-backoff";
 
 const API_BASE_PATH = `https://api.krakenflex.systems/interview-tests-mock-api/v1`;
 
@@ -17,14 +18,23 @@ export class Api {
   ): Promise<T> {
     const url = `${API_BASE_PATH}${path}`;
 
-    const result = await fetch(url, {
-      headers: {
-        [HTTP_HEADERS.xApiKey]: this.key,
-        [HTTP_HEADERS.contentType]: "application/json",
-      },
-      method,
-      body: JSON.stringify(body),
-    });
+    const doFetch = async () => {
+      const result = await fetch(url, {
+        headers: {
+          [HTTP_HEADERS.xApiKey]: this.key,
+          [HTTP_HEADERS.contentType]: "application/json",
+        },
+        method,
+        body: JSON.stringify(body),
+      });
+      if (!result.ok) {
+        throw new Error("HTTP Error Returned");
+      }
+
+      return result;
+    };
+
+    const result = await backOff(doFetch);
 
     const response = await result.text();
 
