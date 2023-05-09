@@ -1,8 +1,6 @@
-export interface EnhancedOutageSerialised {
-  id: string,
-  name: string,
-  begin: string,
-  end: string
+export interface EnhancedOutage {
+  id: string;
+  name: string;
+  begin: Date;
+  end: Date;
 }
-
-
