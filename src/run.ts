@@ -1,20 +1,7 @@
-import { Api } from "./client/api";
-import { API_KEY } from "./constants/environment-variables";
-import { getSiteOutages } from "./core/get-site-outages";
+import { postEnhancedOutages } from "./core/post-enhanced-outages";
 
 const run = async () => {
-  const key = process.env[API_KEY];
-
-  if (!key) {
-    throw new Error("API_KEY not configured");
-  }
-
-  const cutOffDate = new Date("2022-01-01T00:00:00.000Z");
-  const site = `norwich-pear-tree`;
-
-  const api = new Api(key);
-  const outages = await getSiteOutages(api, site, cutOffDate);
-  await api.postEnhancedOutages(site, outages);
+  await postEnhancedOutages();
 };
 
 run().catch((error) => console.log(error));
